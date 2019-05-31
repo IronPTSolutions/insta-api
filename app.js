@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
 
+require('./configs/db.config');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
