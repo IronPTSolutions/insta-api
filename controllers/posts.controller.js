@@ -32,6 +32,18 @@ module.exports.get = (req, res, next) => {
     .catch(next)
 }
 
+module.exports.update = (req, res, next) => {
+  Post.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true, runValidators: true })
+    .then(post => {
+      if (!post) {
+        throw new Error(createError(404, 'Post not found'))
+      } else {
+        res.json(post)
+      }
+    })
+    .catch(next)
+}
+
 module.exports.delete = (req, res, next) => {
   Post.findByIdAndDelete(req.params.id)
     .then(post => {
