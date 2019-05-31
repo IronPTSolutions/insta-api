@@ -33,6 +33,9 @@ app.use((error, req, res, next) => {
     data.errors = {}
     Object.keys(error.errors)
       .forEach(field => data.errors[field] = error.errors[field].message)
+  } else if (error instanceof mongoose.Error.CastError) {
+    res.status(404);
+    error.message = 'Resource not found';
   }
 
   data.message = error.message
