@@ -8,6 +8,7 @@ const createError = require('http-errors');
 require('./configs/db.config');
 
 const postsRouter = require('./routes/posts.routes');
+const commentsRouter = require('./routes/comments.routes');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/posts', postsRouter);
+app.use('/posts/:postId', commentsRouter);
 
 app.use((req, res, next) => {
   next(createError(404))
