@@ -21,7 +21,7 @@ const commentSchema = new mongoose.Schema({
       delete ret.__v;
       return ret;
     }
-  }
+  },
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

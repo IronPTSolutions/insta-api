@@ -22,6 +22,7 @@ module.exports.create = (req, res, next) => {
 
 module.exports.get = (req, res, next) => {
   Post.findById(req.params.id)
+    .populate('comments')
     .then(post => {
       if (!post) {
         throw createError(404, 'Post not found')

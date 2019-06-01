@@ -26,6 +26,7 @@ const postSchema = new mongoose.Schema({
 }, { 
   timestamps: true,
   toJSON: {
+    virtuals: true,
     transform: function(doc, ret) {
       ret.id = ret._id;
       delete ret._id;
@@ -38,6 +39,13 @@ const postSchema = new mongoose.Schema({
 function validateAttachments(attachments) {
   return attachments && attachments.length >= 1
 }
+
+postSchema.virtual('comments', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'post',
+  options: { sort: { createdAt: -1 } }
+})
 
 postSchema.pre('save', function(next) {
   const messageWords = this.message.split(' ')
