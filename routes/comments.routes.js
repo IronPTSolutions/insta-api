@@ -4,5 +4,6 @@ const comments = require('../controllers/comments.controller');
 const posts = require('../middlewares/post.mid');
 
 router.post('/comments', posts.existsPost, comments.create);
+router.delete('/comments/:id', posts.existsPost, comments.delete);
 
 module.exports = router;
