@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 const URL_PATTERN = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
 const postSchema = new mongoose.Schema({
-  attachments: {
-    type: [{
-      type: String,
-      match: [URL_PATTERN, 'Invalid url pattern']
-    }],
+  attachment: {
+    type: String,
+    match: [URL_PATTERN, 'Invalid url pattern'],
     required: true,
     validate: [validateAttachments, 'A Post needs at least one attachment']
+  },
+  title: {
+    type: String,
+    required: true
   },
   message: {
     type: String,
@@ -49,8 +51,10 @@ postSchema.virtual('comments', {
 
 postSchema.pre('save', function(next) {
   const messageWords = this.message.split(' ')
+
   this.hastags = messageWords
     .filter(word => word.split('#').length === 2)
+
   this.mentions = messageWords
     .filter(word => word.split('@').length === 2)
 

@@ -12,9 +12,11 @@ module.exports.list = (req, res, next) => {
 
 module.exports.create = (req, res, next) => {
   const post = new Post({
-    attachments: req.body.attachments,
-    message: req.body.message
+    attachment: req.body.attachment,
+    message: req.body.message,
+    title: req.body.title
   });
+
   post.save()
     .then(post => res.status(201).json(post))
     .catch(next)
@@ -34,7 +36,7 @@ module.exports.get = (req, res, next) => {
 }
 
 module.exports.update = (req, res, next) => {
-  Post.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true, runValidators: true })
+  Post.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
     .then(post => {
       if (!post) {
         throw createError(404, 'Post not found')
